@@ -1,5 +1,6 @@
 plugins {
-    id("java")
+    java
+    checkstyle
 }
 
 group = "com.example"
