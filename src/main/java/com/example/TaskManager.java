@@ -7,9 +7,9 @@ public class TaskManager {
 
     private static Long id = 0L;
 
-    private Map<Long, String> tasks;
-    private Map<Long, String> subTasks;
-    private Map<Long, String> epics;
+    private Map<Long, Task> tasks;
+    private Map<Long, Subtask> subTasks;
+    private Map<Long, Epic> epics;
 
     public TaskManager() {
         tasks = new HashMap<>();
@@ -21,15 +21,15 @@ public class TaskManager {
         return ++id;
     }
 
-    public Map<Long, String> getTasks() {
+    public Map<Long, Task> getTasks() {
         return tasks;
     }
 
-    public Map<Long, String> getSubTasks() {
+    public Map<Long, Subtask> getSubTasks() {
         return subTasks;
     }
 
-    public Map<Long, String> getEpics() {
+    public Map<Long, Epic> getEpics() {
         return epics;
     }
 
@@ -57,5 +57,41 @@ public class TaskManager {
 
     public Epic getEpicById(Long id) {
         return epics.get(id);
+    }
+
+    public void addTask(Task task) {
+        tasks.put(task.id, task);
+    }
+
+    public void addSubtask(Subtask subtask) {
+        subTasks.put(subtask.id, subtask);
+    }
+
+    public void addEpic(Epic epic) {
+        epics.put(epic.id, epic);
+    }
+
+    public void updateTask(Task task, Long id) {
+        tasks.put(id, task);
+    }
+
+    public void updateSubtask(Subtask subtask, Long id) {
+        subTasks.put(id, subtask);
+    }
+
+    public void updateEpic(Epic epic, Long id) {
+        epics.put(id, epic);
+    }
+
+    public void removeTaskById(Long id) {
+        tasks.remove(id);
+    }
+
+    public void removeSubtaskById(Long id) {
+        subTasks.remove(id);
+    }
+
+    public void removeEpicById(Long id) {
+        epics.remove(id);
     }
 }
