@@ -46,4 +46,16 @@ public class TaskManager {
     public void removeEpics() {
         epics = new HashMap<>();
     }
+
+    public Task getTaskById(Long id) {
+        return tasks.get(id);
+    }
+
+    public Subtask getSubtaskById(Long id) {
+        return subTasks.get(id);
+    }
+
+    public Epic getEpicById(Long id) {
+        return epics.get(id);
+    }
 }
