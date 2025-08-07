@@ -94,4 +94,8 @@ public class TaskManager {
     public void removeEpicById(Long id) {
         epics.remove(id);
     }
+
+    public Map<Long, Subtask> getSubtasksByEpic(Epic epic) {
+        return epic.getSubtasks();
+    }
 }
