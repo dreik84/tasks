@@ -12,4 +12,14 @@ public class Subtask extends Task {
     public Epic getEpic() {
         return epic;
     }
+
+    @Override
+    public String toString() {
+        return "Subtask{" +
+                "status=" + status +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
