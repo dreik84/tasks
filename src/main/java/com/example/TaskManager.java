@@ -63,8 +63,9 @@ public class TaskManager {
         tasks.put(task.id, task);
     }
 
-    public void addSubtask(Subtask subtask) {
+    public void addSubtask(Subtask subtask, Epic epic) {
         subTasks.put(subtask.id, subtask);
+        epics.put(subtask.id, epic);
     }
 
     public void addEpic(Epic epic) {
