@@ -33,5 +33,21 @@ public class Main {
                 "Необходимо заказать инструменты и материаллы для строительства",
                 Status.NEW,
                 epic2);
+
+        TaskManager taskManager = new TaskManager();
+        taskManager.addTask(task1);
+        taskManager.addTask(taks2);
+        taskManager.addEpic(epic1);
+        taskManager.addSubtask(subtask1, epic1);
+        taskManager.addSubtask(subtask2, epic1);
+        taskManager.addEpic(epic2);
+        taskManager.addSubtask(subtask3, epic2);
+
+        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getEpics());
+        System.out.println(taskManager.getSubTasks());
+
+        task1.status = Status.IN_PROCESS;
+        taks2.status = Status.IN_PROCESS;
     }
 }
