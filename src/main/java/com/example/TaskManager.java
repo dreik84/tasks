@@ -99,4 +99,8 @@ public class TaskManager {
     public Map<Long, Subtask> getSubtasksByEpic(Epic epic) {
         return epic.getSubtasks();
     }
+
+    public void setStatus(Status status) {
+
+    }
 }
