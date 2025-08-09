@@ -13,4 +13,14 @@ public class Task {
         this.status = status;
         this.id = TaskManager.generateId();
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status +
+                '}';
+    }
 }
