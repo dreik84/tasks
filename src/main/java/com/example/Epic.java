@@ -16,6 +16,10 @@ public class Epic extends Task {
         subtasks.put(subtask.id, subtask);
     }
 
+    public void removeSubtaskById(Long id) {
+        subtasks.remove(id);
+    }
+
     public Map<Long, Subtask> getSubtasks() {
         return subtasks;
     }
@@ -37,7 +41,6 @@ public class Epic extends Task {
         } else {
             status = Status.IN_PROCESS;
         }
-
     }
 
     @Override
