@@ -65,7 +65,7 @@ public class TaskManager {
 
     public void addSubtask(Subtask subtask, Epic epic) {
         subTasks.put(subtask.id, subtask);
-        epics.put(subtask.id, epic);
+        epic.addSubtask(subtask);
     }
 
     public void addEpic(Epic epic) {
@@ -89,6 +89,8 @@ public class TaskManager {
     }
 
     public void removeSubtaskById(Long id) {
+        Subtask subtask = subTasks.get(id);
+        subtask.getEpic().removeSubtaskById(id);
         subTasks.remove(id);
     }
 
