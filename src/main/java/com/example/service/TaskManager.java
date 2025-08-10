@@ -1,11 +1,16 @@
-package com.example;
+package com.example.service;
+
+import com.example.model.Epic;
+import com.example.model.Status;
+import com.example.model.Subtask;
+import com.example.model.Task;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TaskManager {
 
-    private static Long id = 0L;
+    private static Long generatedId = 0L;
 
     private Map<Long, Task> tasks;
     private Map<Long, Subtask> subTasks;
@@ -18,7 +23,7 @@ public class TaskManager {
     }
 
     public static Long generateId() {
-        return ++id;
+        return ++generatedId;
     }
 
     public Map<Long, Task> getTasks() {
@@ -60,16 +65,16 @@ public class TaskManager {
     }
 
     public void addTask(Task task) {
-        tasks.put(task.id, task);
+        tasks.put(task.getId(), task);
     }
 
     public void addSubtask(Subtask subtask, Epic epic) {
-        subTasks.put(subtask.id, subtask);
+        subTasks.put(subtask.getId(), subtask);
         epic.addSubtask(subtask);
     }
 
     public void addEpic(Epic epic) {
-        epics.put(epic.id, epic);
+        epics.put(epic.getId(), epic);
     }
 
     public void updateTask(Task task, Long id) {
@@ -102,7 +107,14 @@ public class TaskManager {
         return epic.getSubtasks();
     }
 
-    public void setStatus(Status status) {
-
+    public void updateStatus(Task task, Status status) {
+        if (task instanceof Epic) {
+            ((Epic) task).updateStatus();
+        } else if (task instanceof Subtask) {
+            task.setStatus(status);
+            ((Subtask) task).getEpic().updateStatus();
+        } else {
+            task.setStatus(status);
+        }
     }
 }
