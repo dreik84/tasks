@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 public class Subtask extends Task {
 
@@ -15,11 +15,9 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "Subtask{" +
-                "status=" + status +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Subtask{" + "status=" + status
+                + ", id=" + id
+                + ", name='" + name + '\''
+                + ", description='" + description + '\'' + '}';
     }
 }
