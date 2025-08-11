@@ -44,12 +44,20 @@ public class TaskManager {
         }
     }
 
-    public void removeSubTasks() {
-        subTasks = new HashMap<>();
+    public void removeSubtasks() {
+        subTasks.clear();
+
+        for (Epic epic : epics.values()) {
+            epic.removeAllSubtasks();
+        }
     }
 
     public void removeEpics() {
-        epics = new HashMap<>();
+        for (Epic epic : epics.values()) {
+            epic.removeAllSubtasks();
+        }
+
+        epics.clear();
     }
 
     public Task getTaskById(Long id) {
@@ -83,6 +91,7 @@ public class TaskManager {
 
     public void updateSubtask(Subtask subtask, Long id) {
         subTasks.put(id, subtask);
+        subtask.getEpic().getSubtasks().put(id, subtask);
     }
 
     public void updateEpic(Epic epic, Long id) {
@@ -100,6 +109,8 @@ public class TaskManager {
     }
 
     public void removeEpicById(Long id) {
+        Epic epic = epics.get(id);
+        epic.removeAllSubtasks();
         epics.remove(id);
     }
 
