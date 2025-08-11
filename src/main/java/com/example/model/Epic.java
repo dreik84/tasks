@@ -24,6 +24,10 @@ public class Epic extends Task {
         return subtasks;
     }
 
+    public void removeAllSubtasks() {
+        subtasks.clear();
+    }
+
     public void updateStatus() {
 
         boolean isAllNew = subtasks.values().stream()
