@@ -24,12 +24,12 @@ public class Main {
         Subtask subtask1 = new Subtask("Купить учебник",
                 "Необходимо приобрести учебник по английскому языку",
                 Status.NEW,
-                epic1);
+                epic1.getId());
 
         Subtask subtask2 = new Subtask("Выучить грамматику языка",
                 "Начать изучать грамматику английского языка",
                 Status.NEW,
-                epic1);
+                epic1.getId());
 
         Epic epic2 = new Epic("Построить дом",
                 "Нужно построить жилой дом",
@@ -38,20 +38,20 @@ public class Main {
         Subtask subtask3 = new Subtask("Заказать стройматериалы",
                 "Необходимо заказать инструменты и материалы для строительства",
                 Status.NEW,
-                epic2);
+                epic2.getId());
 
         TaskManager taskManager = new TaskManager();
         taskManager.addTask(task1);
         taskManager.addTask(task2);
         taskManager.addEpic(epic1);
-        taskManager.addSubtask(subtask1, epic1);
-        taskManager.addSubtask(subtask2, epic1);
+        taskManager.addSubtask(subtask1);
+        taskManager.addSubtask(subtask2);
         taskManager.addEpic(epic2);
-        taskManager.addSubtask(subtask3, epic2);
+        taskManager.addSubtask(subtask3);
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
-        System.out.println(taskManager.getSubTasks());
+        System.out.println(taskManager.getSubtasks());
         System.out.println();
 
         taskManager.updateStatus(task1, Status.IN_PROCESS);
@@ -62,12 +62,10 @@ public class Main {
         subtask1.setStatus(Status.IN_PROCESS);
         subtask2.setStatus(Status.IN_PROCESS);
         subtask2.setStatus(Status.DONE);
-        epic1.updateStatus();
-        epic2.updateStatus();
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
-        System.out.println(taskManager.getSubTasks());
+        System.out.println(taskManager.getSubtasks());
         System.out.println();
 
         taskManager.removeTaskById(task1.getId());
@@ -76,6 +74,6 @@ public class Main {
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
-        System.out.println(taskManager.getSubTasks());
+        System.out.println(taskManager.getSubtasks());
     }
 }
