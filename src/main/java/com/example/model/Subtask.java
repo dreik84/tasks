@@ -2,15 +2,15 @@ package com.example.model;
 
 public class Subtask extends Task {
 
-    private final Epic epic;
+    private final Long epicId;
 
-    public Subtask(String name, String description, Status status, Epic epic) {
+    public Subtask(String name, String description, Status status, Long epicId) {
         super(name, description, status);
-        this.epic = epic;
+        this.epicId = epicId;
     }
 
-    public Epic getEpic() {
-        return epic;
+    public Long getEpicId() {
+        return epicId;
     }
 
     @Override
