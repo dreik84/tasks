@@ -6,15 +6,16 @@ import com.example.model.Subtask;
 import com.example.model.Task;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TaskManager {
 
     private static Long generatedId = 0L;
 
-    private Map<Long, Task> tasks;
-    private Map<Long, Subtask> subtasks;
-    private Map<Long, Epic> epics;
+    private final Map<Long, Task> tasks;
+    private final Map<Long, Subtask> subtasks;
+    private final Map<Long, Epic> epics;
 
     public TaskManager() {
         tasks = new HashMap<>();
@@ -113,6 +114,7 @@ public class TaskManager {
 
     private void updateEpicStatus(long id) {
         Epic epic = epics.get(id);
+        List<Subtask> subtasksByEpicId = getSubtasksByEpicId(id);
 
         boolean isAllNew = subtasks.values().stream()
                 .filter(subtask -> subtask.getEpicId() == id)
@@ -124,12 +126,19 @@ public class TaskManager {
                 .filter(subtask -> subtask.getStatus() == Status.DONE)
                 .count() == subtasks.size();
 
-        if (subtasks.isEmpty() || isAllNew) {
+        if (subtasksByEpicId.isEmpty() || isAllNew) {
             epic.setStatus(Status.NEW);
         } else if (isAllDone) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROCESS);
         }
+    }
+
+    private List<Subtask> getSubtasksByEpicId(long epicId) {
+
+        return subtasks.values().stream()
+                .filter(subtask -> subtask.getEpicId() == epicId)
+                .toList();
     }
 }
