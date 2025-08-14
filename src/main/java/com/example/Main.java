@@ -56,12 +56,9 @@ public class Main {
 
         taskManager.updateStatus(task1, Status.IN_PROCESS);
         taskManager.updateStatus(task2, Status.IN_PROCESS);
-
-        task1.setStatus(Status.IN_PROCESS);
-        task2.setStatus(Status.IN_PROCESS);
-        subtask1.setStatus(Status.IN_PROCESS);
-        subtask2.setStatus(Status.IN_PROCESS);
-        subtask2.setStatus(Status.DONE);
+        taskManager.updateStatus(subtask1, Status.IN_PROCESS);
+        taskManager.updateStatus(subtask2, Status.IN_PROCESS);
+        taskManager.updateStatus(subtask3, Status.DONE);
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
