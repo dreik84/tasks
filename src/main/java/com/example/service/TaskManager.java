@@ -119,14 +119,12 @@ public class TaskManager {
         boolean isAllNew = subtasks.values().stream()
                 .filter(subtask -> subtask.getEpicId() == id)
                 .filter(subtask -> subtask.getStatus() == Status.NEW)
-                .count() == subtasks.size();
+                .count() == subtasksByEpicId.size();
 
         boolean isAllDone = subtasks.values().stream()
                 .filter(subtask -> subtask.getEpicId() == id)
-                .peek(System.out::println)
                 .filter(subtask -> subtask.getStatus() == Status.DONE)
-                .peek(System.out::println)
-                .count() == subtasks.size();
+                .count() == subtasksByEpicId.size();
 
         if (subtasksByEpicId.isEmpty() || isAllNew) {
             epic.setStatus(Status.NEW);
