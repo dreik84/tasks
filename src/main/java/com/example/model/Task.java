@@ -16,7 +16,7 @@ public class Task {
         this.id = TaskManager.generateId();
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
