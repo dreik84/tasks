@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class TaskManager {
 
-    private static Long generatedId = 0L;
+    private static long generatedId = 0L;
 
     private final Map<Long, Task> tasks;
     private final Map<Long, Subtask> subtasks;
@@ -23,7 +23,7 @@ public class TaskManager {
         epics = new HashMap<>();
     }
 
-    public static Long generateId() {
+    public static long generateId() {
         return ++generatedId;
     }
 
