@@ -4,6 +4,7 @@ import com.example.model.Epic;
 import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
+import com.example.service.InMemoryTaskManager;
 import com.example.service.TaskManager;
 
 public class Main {
@@ -40,7 +41,7 @@ public class Main {
                 Status.NEW,
                 epic2.getId());
 
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = new InMemoryTaskManager();
         taskManager.addTask(task1);
         taskManager.addTask(task2);
         taskManager.addEpic(epic1);
