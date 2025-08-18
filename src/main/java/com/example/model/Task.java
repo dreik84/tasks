@@ -1,6 +1,6 @@
 package com.example.model;
 
-import com.example.service.TaskManager;
+import com.example.service.InMemoryTaskManager;
 
 public class Task {
 
@@ -13,7 +13,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.id = TaskManager.generateId();
+        this.id = InMemoryTaskManager.generateId();
     }
 
     public long getId() {
