@@ -5,9 +5,12 @@ import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
 
+import java.util.List;
 import java.util.Map;
 
 public interface TaskManager {
+
+    public List<Task> getHistory();
 
     public Map<Long, Task> getTasks();
 
