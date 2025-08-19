@@ -5,9 +5,7 @@ import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -16,91 +14,123 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Long, Task> tasks;
     private final Map<Long, Subtask> subtasks;
     private final Map<Long, Epic> epics;
+    private final List<Task> history;
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
+        history = new LinkedList<>();
     }
 
     public static long generateId() {
         return ++generatedId;
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return history;
+    }
+
+    @Override
     public Map<Long, Task> getTasks() {
         return tasks;
     }
 
+    @Override
     public Map<Long, Subtask> getSubtasks() {
         return subtasks;
     }
 
+    @Override
     public Map<Long, Epic> getEpics() {
         return epics;
     }
 
+    @Override
     public void removeAllTasks() {
         tasks.clear();
     }
 
+    @Override
     public void removeAllSubtasks() {
         subtasks.clear();
     }
 
+    @Override
     public void removeAllEpics() {
         epics.clear();
         removeAllSubtasks();
     }
 
+    @Override
     public Task getTaskById(long id) {
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        history.add(task);
+        return task;
     }
 
+    @Override
     public Subtask getSubtaskById(long id) {
-        return subtasks.get(id);
+        Subtask subtask = subtasks.get(id);
+        history.add(subtask);
+        return subtask;
     }
 
+    @Override
     public Epic getEpicById(long id) {
-        return epics.get(id);
+        Epic epic = epics.get(id);
+        history.add(epic);
+        return epic;
     }
 
+    @Override
     public void addTask(Task task) {
         tasks.put(task.getId(), task);
     }
 
+    @Override
     public void addSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
     }
 
+    @Override
     public void addEpic(Epic epic) {
         epics.put(epic.getId(), epic);
     }
 
+    @Override
     public void updateTask(Task task, long id) {
         tasks.put(id, task);
     }
 
+    @Override
     public void updateSubtask(Subtask subtask, long id) {
         subtasks.put(id, subtask);
     }
 
+    @Override
     public void updateEpic(Epic epic, long id) {
         epics.put(id, epic);
     }
 
+    @Override
     public void removeTaskById(long id) {
         tasks.remove(id);
     }
 
+    @Override
     public void removeSubtaskById(long id) {
         subtasks.remove(id);
     }
 
+    @Override
     public void removeEpicById(long id) {
         subtasks.values().removeIf(subtask -> subtask.getEpicId() == id);
         epics.remove(id);
     }
 
+    @Override
     public void updateStatus(Task task, Status status) {
         if (task instanceof Epic) {
             updateEpicStatus(task.getId());
