@@ -33,10 +33,10 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void putInHistory(Task task) {
-        history.add(task);
+        history.addFirst(task);
 
         if (history.size() > 10) {
-            history.removeFirst();
+            history.removeLast();
         }
     }
 
