@@ -14,13 +14,13 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Long, Task> tasks;
     private final Map<Long, Subtask> subtasks;
     private final Map<Long, Epic> epics;
-    private final LinkedList<Task> history;
+    private final HistoryManager historyManager;
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
-        history = new LinkedList<>();
+        historyManager = new InMemoryHistoryManager();
     }
 
     public static long generateId() {
@@ -29,15 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getHistory() {
-        return history;
-    }
-
-    private void putInHistory(Task task) {
-        history.addFirst(task);
-
-        if (history.size() > 10) {
-            history.removeLast();
-        }
+        return historyManager.getHistory();
     }
 
     @Override
@@ -74,21 +66,21 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(long id) {
         Task task = tasks.get(id);
-        putInHistory(task);
+        historyManager.add(task);
         return task;
     }
 
     @Override
     public Subtask getSubtaskById(long id) {
         Subtask subtask = subtasks.get(id);
-        putInHistory(subtask);
+        historyManager.add(subtask);
         return subtask;
     }
 
     @Override
     public Epic getEpicById(long id) {
         Epic epic = epics.get(id);
-        putInHistory(epic);
+        historyManager.add(epic);
         return epic;
     }
 
