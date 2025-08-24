@@ -20,7 +20,7 @@ public class InMemoryTaskManager implements TaskManager {
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
-        historyManager = new InMemoryHistoryManager();
+        historyManager = Managers.getDefaultHistory();
     }
 
     public static long generateId() {
