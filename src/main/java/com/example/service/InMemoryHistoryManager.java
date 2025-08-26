@@ -2,33 +2,37 @@ package com.example.service;
 
 import com.example.model.Task;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final LinkedList<Task> history;
+    private final LinkedHashMap<Long, Task> history;
 
     public InMemoryHistoryManager() {
-        history = new LinkedList<>();
+        history = new LinkedHashMap<>();
     }
 
     @Override
     public void add(Task task) {
-        history.addFirst(task);
+        if (history.containsKey(task.getId())) {
+            remove(task.getId());
+        }
+        history.put(task.getId(), task);
 
         if (history.size() > 10) {
-            history.removeLast();
+            history.remove(0);
         }
     }
 
     @Override
-    public void remove(int id) {
-        history.removeIf(task -> task.getId() == id);
+    public void remove(long id) {
+        history.remove(id);
     }
 
     @Override
     public List<Task> getHistory() {
-        return history;
+        return new ArrayList<>(history.values());
     }
 }
