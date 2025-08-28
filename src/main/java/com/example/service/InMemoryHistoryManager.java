@@ -35,4 +35,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
         return new ArrayList<>(history.values());
     }
+
+    static class HistoryLinkedHashMap extends LinkedHashMap<Long, Task> {
+    }
 }
