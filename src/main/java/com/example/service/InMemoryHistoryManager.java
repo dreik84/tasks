@@ -2,16 +2,14 @@ package com.example.service;
 
 import com.example.model.Task;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final LinkedHashMap<Long, Task> history;
+    private final Map<Long, Task> history;
 
     public InMemoryHistoryManager() {
-        history = new LinkedHashMap<>();
+        history = new HashMap<>();
     }
 
     @Override
@@ -36,6 +34,23 @@ public class InMemoryHistoryManager implements HistoryManager {
         return new ArrayList<>(history.values());
     }
 
-    static class HistoryLinkedHashMap extends LinkedHashMap<Long, Task> {
+    private class Node {
+        long id;
+        Node prev;
+        Node next;
+
+        public Node(long id, Node prev, Node next) {
+            this.id = id;
+            this.prev = prev;
+            this.next = next;
+        }
+
+        void linkLast(Task task) {
+            history.put(id, task);
+        }
+
+        List<Task> getTasks() {
+            return new ArrayList<>(history.values());
+        }
     }
 }
