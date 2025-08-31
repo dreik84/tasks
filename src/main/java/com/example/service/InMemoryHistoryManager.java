@@ -14,14 +14,8 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if (history.containsKey(task.getId())) {
-            remove(task.getId());
-        }
-        history.put(task.getId(), task);
-
-        if (history.size() > 10) {
-            history.remove(0);
-        }
+        Node node = new Node(task);
+        node.linkLast(task);
     }
 
     @Override
@@ -35,18 +29,25 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private class Node {
-        long id;
+        Task task;
         Node prev;
         Node next;
 
-        public Node(long id, Node prev, Node next) {
-            this.id = id;
-            this.prev = prev;
-            this.next = next;
+        Node(Task task) {
+            this.task = task;
+            this.prev = null;
+            this.next = null;
         }
 
         void linkLast(Task task) {
-            history.put(id, task);
+            if (history.containsKey(task.getId())) {
+                remove(task.getId());
+            }
+            history.put(task.getId(), task);
+
+            if (history.size() > 10) {
+                history.remove(0);
+            }
         }
 
         List<Task> getTasks() {
