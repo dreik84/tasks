@@ -30,13 +30,13 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private class Node {
         Task task;
-        Node prev;
-        Node next;
+        Node before;
+        Node after;
 
         Node(Task task) {
             this.task = task;
-            this.prev = null;
-            this.next = null;
+            this.before = null;
+            this.after = null;
         }
 
         void linkLast(Task task) {
@@ -52,6 +52,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         List<Task> getTasks() {
             return new ArrayList<>(history.values());
+        }
+
+        void removeNode(Node node) {
+            history.remove(node.task.getId());
         }
     }
 }
