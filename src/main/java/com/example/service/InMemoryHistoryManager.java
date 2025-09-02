@@ -7,15 +7,23 @@ import java.util.*;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Long, Task> history;
+    private Node first;
 
     public InMemoryHistoryManager() {
         history = new HashMap<>();
+        first = null;
     }
 
     @Override
     public void add(Task task) {
         Node node = new Node(task);
         node.linkLast(task);
+
+        if (first != null) {
+            node.after = first;
+            first.before = node;
+        }
+        first = node;
     }
 
     @Override
@@ -55,7 +63,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
 
         void removeNode(Node node) {
-            history.remove(node.task.getId());
+            node.before.after = node.after;
+            node.after.before = node.before;
+            node.after = null;
+            node.before = null;
         }
     }
 }
