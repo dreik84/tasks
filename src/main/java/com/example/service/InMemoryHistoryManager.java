@@ -3,10 +3,11 @@ package com.example.service;
 import com.example.model.Task;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final Map<Long, Task> history;
+    private final Map<Long, Node> history;
     private Node first;
 
     public InMemoryHistoryManager() {
@@ -17,13 +18,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void add(Task task) {
         Node node = new Node(task);
-        node.linkLast(task);
 
-        if (first != null) {
-            node.after = first;
-            first.before = node;
+        if (history.containsKey(task.getId())) {
+            long id = task.getId();
+            node.removeNode(history.get(id));
+            remove(id);
         }
-        first = node;
+        node.linkLast(task);
+        history.put(task.getId(), node);
+
+        if (history.size() > 10) {
+            history.remove(0);
+        }
     }
 
     @Override
@@ -33,7 +39,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(history.values());
+        return history.values().stream().map(node -> node.task).collect(Collectors.toList());
     }
 
     private class Node {
@@ -48,18 +54,15 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
 
         void linkLast(Task task) {
-            if (history.containsKey(task.getId())) {
-                remove(task.getId());
+            if (first != null) {
+                this.after = first;
+                first.before = this;
             }
-            history.put(task.getId(), task);
-
-            if (history.size() > 10) {
-                history.remove(0);
-            }
+            first = this;
         }
 
         List<Task> getTasks() {
-            return new ArrayList<>(history.values());
+            return history.values().stream().map(node -> node.task).collect(Collectors.toList());
         }
 
         void removeNode(Node node) {
