@@ -9,6 +9,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Long, Node> history;
     private Node first;
+    private Node last;
 
     public InMemoryHistoryManager() {
         history = new HashMap<>();
@@ -17,14 +18,14 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        Node node = new Node(task);
+        Node node = new Node();
 
         if (history.containsKey(task.getId())) {
             long id = task.getId();
             node.removeNode(history.get(id));
             remove(id);
         }
-        node.linkLast(task);
+        node.linkFirst(task);
         history.put(task.getId(), node);
 
         if (history.size() > 10) {
@@ -47,18 +48,14 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node before;
         Node after;
 
-        Node(Task task) {
-            this.task = task;
-            this.before = null;
-            this.after = null;
-        }
-
-        void linkLast(Task task) {
-            if (first != null) {
+        void linkFirst(Task task) {
+            if (first == null) {
+                first = this;
+                last = this;
+            } else {
                 this.after = first;
                 first.before = this;
             }
-            first = this;
         }
 
         List<Task> getTasks() {
@@ -66,8 +63,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
 
         void removeNode(Node node) {
-            node.before.after = node.after;
-            node.after.before = node.before;
+
+            if (node == first) {
+                first = node.after;
+            } else if (node == last) {
+                last = node.before;
+            } else {
+                node.before.after = node.after;
+                node.after.before = node.before;
+            }
+
             node.after = null;
             node.before = null;
         }
