@@ -14,6 +14,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     public InMemoryHistoryManager() {
         history = new HashMap<>();
         first = null;
+        last = null;
     }
 
     @Override
@@ -25,10 +26,12 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.removeNode(history.get(id));
             remove(id);
         }
+
         node.linkFirst(task);
         history.put(task.getId(), node);
 
         if (history.size() > 10) {
+            node.removeNode(last);
             history.remove(0);
         }
     }
@@ -49,13 +52,15 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node after;
 
         void linkFirst(Task task) {
+            this.task = task;
+
             if (first == null) {
-                first = this;
                 last = this;
             } else {
                 this.after = first;
                 first.before = this;
             }
+            first = this;
         }
 
         List<Task> getTasks() {
