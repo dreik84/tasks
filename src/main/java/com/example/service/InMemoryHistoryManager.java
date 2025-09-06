@@ -31,8 +31,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.put(task.getId(), node);
 
         if (history.size() > 10) {
+            history.remove(last.task.getId());
             node.removeNode(last);
-            history.remove(0);
         }
     }
 
@@ -47,9 +47,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private class Node {
-        Task task;
-        Node before;
-        Node after;
+        private Task task;
+        private Node before;
+        private Node after;
 
         void linkFirst(Task task) {
             this.task = task;
