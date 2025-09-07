@@ -43,7 +43,15 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return history.values().stream().map(node -> node.task).collect(Collectors.toList());
+        List<Task> tasks = new ArrayList<>();
+        Node current = first;
+
+        while (current != null) {
+            tasks.add(current.task);
+            current = current.after;
+        }
+
+        return tasks;
     }
 
     private class Node {
