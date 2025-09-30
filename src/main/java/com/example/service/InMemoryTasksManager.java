@@ -7,7 +7,7 @@ import com.example.model.Task;
 
 import java.util.*;
 
-public class InMemoryTaskManager implements TaskManager {
+public class InMemoryTasksManager implements TaskManager {
 
     private static long generatedId = 0L;
 
@@ -16,7 +16,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Long, Epic> epics;
     private final HistoryManager historyManager;
 
-    public InMemoryTaskManager() {
+    public InMemoryTasksManager() {
         tasks = new HashMap<>();
         subtasks = new HashMap<>();
         epics = new HashMap<>();
