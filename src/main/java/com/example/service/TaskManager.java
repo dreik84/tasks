@@ -5,6 +5,7 @@ import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -30,11 +31,11 @@ public interface TaskManager {
 
     public Epic getEpicById(long id);
 
-    public void addTask(Task task);
+    public void addTask(Task task) throws IOException;
 
-    public void addSubtask(Subtask subtask);
+    public void addSubtask(Subtask subtask) throws IOException;
 
-    public void addEpic(Epic epic);
+    public void addEpic(Epic epic) throws IOException;
 
     public void updateTask(Task task, long id);
 
