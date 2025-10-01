@@ -7,8 +7,10 @@ import com.example.model.Task;
 import com.example.service.Managers;
 import com.example.service.TaskManager;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Task task1 = new Task("Починить забор",
                 "Нужно отремонтировать забор с использование подручного инструмента",
