@@ -5,16 +5,17 @@ import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
 
+import java.io.IOException;
 import java.util.*;
 
 public class InMemoryTasksManager implements TaskManager {
 
-    private static long generatedId = 0L;
+    protected static long generatedId = 0L;
 
-    private final Map<Long, Task> tasks;
-    private final Map<Long, Subtask> subtasks;
-    private final Map<Long, Epic> epics;
-    private final HistoryManager historyManager;
+    protected final Map<Long, Task> tasks;
+    protected final Map<Long, Subtask> subtasks;
+    protected final Map<Long, Epic> epics;
+    protected final HistoryManager historyManager;
 
     public InMemoryTasksManager() {
         tasks = new HashMap<>();
@@ -85,17 +86,17 @@ public class InMemoryTasksManager implements TaskManager {
     }
 
     @Override
-    public void addTask(Task task) {
+    public void addTask(Task task) throws IOException {
         tasks.put(task.getId(), task);
     }
 
     @Override
-    public void addSubtask(Subtask subtask) {
+    public void addSubtask(Subtask subtask) throws IOException {
         subtasks.put(subtask.getId(), subtask);
     }
 
     @Override
-    public void addEpic(Epic epic) {
+    public void addEpic(Epic epic) throws IOException {
         epics.put(epic.getId(), epic);
     }
 
