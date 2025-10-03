@@ -4,10 +4,13 @@ import com.example.model.Epic;
 import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
+import com.example.service.FileBackendTasksManager;
 import com.example.service.Managers;
 import com.example.service.TaskManager;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -43,7 +46,9 @@ public class Main {
                 Status.NEW,
                 epic2.getId());
 
-        TaskManager taskManager = Managers.getDefault();
+        Path filePath = Paths.get(System.getProperty("user.dir"), "tasks.csv").normalize().toAbsolutePath();
+        FileBackendTasksManager taskManager = Managers.getFileBackendManager(filePath);
+
         taskManager.addTask(task1);
         taskManager.addTask(task2);
         taskManager.addEpic(epic1);
@@ -82,5 +87,10 @@ public class Main {
         taskManager.getEpicById(epic2.getId());
 
         System.out.println(taskManager.getHistory());
+        System.out.println();
+
+        System.out.println(taskManager.toString(task2));
+        System.out.println(taskManager.toString(subtask3));
+        System.out.println(taskManager.toString(epic2));
     }
 }
