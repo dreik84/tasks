@@ -46,7 +46,9 @@ public class Main {
                 Status.NEW,
                 epic2.getId());
 
-        Path filePath = Paths.get(System.getProperty("user.dir"), "tasks.csv").normalize().toAbsolutePath();
+        Path filePath = Paths.get(System.getProperty("user.dir"),"src", "main", "resources", "tasks.csv")
+                .normalize().toAbsolutePath();
+        System.out.println(filePath);
         FileBackendTasksManager taskManager = Managers.getFileBackendManager(filePath);
 
         taskManager.addTask(task1);
