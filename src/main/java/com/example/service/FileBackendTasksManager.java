@@ -1,9 +1,6 @@
 package com.example.service;
 
-import com.example.model.Epic;
-import com.example.model.Subtask;
-import com.example.model.Task;
-import com.example.model.TaskType;
+import com.example.model.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -59,5 +56,26 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
 
         return task.getId() + "," + taskType + "," + task.getName() + ","
                 + task.getStatus() + "," + task.getDescription() + "," + epic;
+    }
+
+    public Task fromString(String stringTask) {
+        Task task;
+        String[] parts = stringTask.split(",");
+        long id = Long.parseLong(parts[0]);
+        TaskType type = TaskType.valueOf(parts[1]);
+        String name = parts[2];
+        Status status = Status.valueOf(parts[3]);
+        String description = parts[4];
+        long epicId = parts[5].isEmpty() ? -1 : Long.parseLong(parts[5]);
+
+        if (type == TaskType.SUBTASK) {
+            task = new Subtask(name, description, status, epicId);
+        } else if (type == TaskType.EPIC) {
+            task = new Epic(name, description, status);
+        } else {
+            task = new Task(name, description, status);
+        }
+
+        return task;
     }
 }
