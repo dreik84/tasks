@@ -66,14 +66,14 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         String name = parts[2];
         Status status = Status.valueOf(parts[3]);
         String description = parts[4];
-        long epicId = parts[5].isEmpty() ? -1 : Long.parseLong(parts[5]);
+        long epicId = parts[5].trim().isEmpty() ? -1 : Long.parseLong(parts[5]);
 
         if (type == TaskType.SUBTASK) {
-            task = new Subtask(name, description, status, epicId);
+            task = new Subtask(id, name, description, status, epicId);
         } else if (type == TaskType.EPIC) {
-            task = new Epic(name, description, status);
+            task = new Epic(id, name, description, status);
         } else {
-            task = new Task(name, description, status);
+            task = new Task(id, name, description, status);
         }
 
         return task;
