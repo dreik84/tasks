@@ -10,7 +10,7 @@ import java.util.*;
 
 public class InMemoryTasksManager implements TaskManager {
 
-    protected static long generatedId = 0L;
+    protected static long id = 0L;
 
     protected final Map<Long, Task> tasks;
     protected final Map<Long, Subtask> subtasks;
@@ -25,7 +25,7 @@ public class InMemoryTasksManager implements TaskManager {
     }
 
     public static long generateId() {
-        return ++generatedId;
+        return ++id;
     }
 
     @Override
