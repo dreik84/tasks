@@ -6,6 +6,10 @@ public class Epic extends Task {
         super(name, description, status);
     }
 
+    public Epic(Long id, String name, String description, Status status) {
+        super(id, name, description, status);
+    }
+
     @Override
     public String toString() {
         return "Epic{" + "name='" + getName() + '\''
