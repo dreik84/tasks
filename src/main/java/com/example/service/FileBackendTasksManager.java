@@ -5,6 +5,8 @@ import com.example.model.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBackendTasksManager extends InMemoryTasksManager implements TaskManager {
 
@@ -43,11 +45,11 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
 
     public String toString(Task task) {
         TaskType taskType;
-        String epic = "";
+        String epicId = "";
 
         if (task instanceof Subtask) {
             taskType = TaskType.SUBTASK;
-            epic = String.valueOf(((Subtask) task).getEpicId());
+            epicId = String.valueOf(((Subtask) task).getEpicId());
         } else if (task instanceof Epic) {
             taskType = TaskType.EPIC;
         } else {
@@ -55,7 +57,7 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         }
 
         return task.getId() + "," + taskType + "," + task.getName() + ","
-                + task.getStatus() + "," + task.getDescription() + "," + epic;
+                + task.getStatus() + "," + task.getDescription() + "," + epicId;
     }
 
     public Task fromString(String stringTask) {
@@ -77,5 +79,15 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         }
 
         return task;
+    }
+
+    public static String toString(HistoryManager manager) {
+        return manager.toString();
+    }
+
+    public static List<Integer> historyFromString(String value) {
+        List<Integer> list = new ArrayList<>();
+
+        return list;
     }
 }
