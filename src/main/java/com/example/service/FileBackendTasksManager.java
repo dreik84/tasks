@@ -5,6 +5,7 @@ import com.example.model.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,30 +18,31 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         this.pathToFile = pathToFile;
     }
 
-    private void save() throws IOException {
+    private void save(Task task) throws IOException {
         if (!Files.exists(pathToFile)) {
             Files.createFile(pathToFile);
         }
 
-        Files.readString(pathToFile);
+        System.out.println(Files.readString(pathToFile));
+        Files.writeString(pathToFile, "\n" + toString(task), StandardOpenOption.APPEND);
     }
 
     @Override
     public void addTask(Task task) throws IOException {
         tasks.put(task.getId(), task);
-        save();
+        save(task);
     }
 
     @Override
     public void addSubtask(Subtask subtask) throws IOException {
         subtasks.put(subtask.getId(), subtask);
-        save();
+        save(subtask);
     }
 
     @Override
     public void addEpic(Epic epic) throws IOException {
         epics.put(epic.getId(), epic);
-        save();
+        save(epic);
     }
 
     public String toString(Task task) {
