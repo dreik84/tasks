@@ -1,8 +1,10 @@
 package com.example.service;
 
+import com.example.exception.ManagerSaveException;
 import com.example.model.*;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -18,13 +20,19 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         this.pathToFile = pathToFile;
     }
 
-    private void save(Task task) throws IOException {
-        if (!Files.exists(pathToFile)) {
-            Files.createFile(pathToFile);
-        }
+    private void save(Task task) {
 
-        System.out.println(Files.readString(pathToFile));
-        Files.writeString(pathToFile, "\n" + toString(task), StandardOpenOption.APPEND);
+        try {
+            if (!Files.exists(pathToFile)) {
+                Files.createFile(pathToFile);
+            }
+            System.out.println(Files.readString(pathToFile));
+            Files.writeString(pathToFile, "\n" + toString(task), StandardOpenOption.APPEND);
+        } catch (FileAlreadyExistsException e) {
+            System.out.println("File " + e.getFile() + " already exists");
+        } catch (IOException e) {
+            throw new ManagerSaveException(e.getMessage());
+        }
     }
 
     @Override
