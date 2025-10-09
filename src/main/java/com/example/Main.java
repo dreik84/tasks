@@ -6,7 +6,6 @@ import com.example.model.Subtask;
 import com.example.model.Task;
 import com.example.service.FileBackendTasksManager;
 import com.example.service.Managers;
-import com.example.service.TaskManager;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -46,10 +45,11 @@ public class Main {
                 Status.NEW,
                 epic2.getId());
 
-        Path filePath = Paths.get(System.getProperty("user.dir"),"src", "main", "resources", "tasks.csv")
+        Path filePath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "tasks.csv")
                 .normalize().toAbsolutePath();
         System.out.println(filePath);
         FileBackendTasksManager taskManager = Managers.getFileBackendManager(filePath);
+        FileBackendTasksManager.loadFromFile(filePath);
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
