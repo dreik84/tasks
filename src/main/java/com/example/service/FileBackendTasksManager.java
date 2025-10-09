@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.exception.ManagerLoadException;
 import com.example.exception.ManagerSaveException;
 import com.example.model.*;
 
@@ -26,12 +27,19 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
             if (!Files.exists(pathToFile)) {
                 Files.createFile(pathToFile);
             }
-            System.out.println(Files.readString(pathToFile));
             Files.writeString(pathToFile, "\n" + toString(task), StandardOpenOption.APPEND);
         } catch (FileAlreadyExistsException e) {
             System.out.println("File " + e.getFile() + " already exists");
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
+        }
+    }
+
+    public static void loadFromFile(Path filepath) throws IOException {
+        if (Files.exists(filepath)) {
+            System.out.println(Files.readString(filepath));
+        } else {
+            throw new ManagerLoadException("File does not exist");
         }
     }
 
