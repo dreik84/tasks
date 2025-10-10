@@ -5,10 +5,7 @@ import com.example.exception.ManagerSaveException;
 import com.example.model.*;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +16,13 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
     public FileBackendTasksManager(Path pathToFile) {
         super();
         this.pathToFile = pathToFile;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Path filePath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "tasks.csv")
+                .normalize().toAbsolutePath();
+        System.out.println(filePath);
+        FileBackendTasksManager.loadFromFile(filePath);
     }
 
     private void save(Task task) {
@@ -37,7 +41,13 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
 
     public static void loadFromFile(Path filepath) throws IOException {
         if (Files.exists(filepath)) {
-            System.out.println(Files.readString(filepath));
+            String content = Files.readString(filepath);
+            String[] lines = content.split("\n");
+            for (String line : lines) {
+                if (line.trim().startsWith("id")) continue;
+                Task task = fromString(line.trim());
+            }
+            System.out.println(content);
         } else {
             throw new ManagerLoadException("File does not exist");
         }
@@ -78,7 +88,7 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
                 + task.getStatus() + "," + task.getDescription() + "," + epicId;
     }
 
-    public Task fromString(String stringTask) {
+    public static Task fromString(String stringTask) {
         Task task;
         String[] parts = stringTask.split(",");
         long id = Long.parseLong(parts[0]);
@@ -86,7 +96,7 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         String name = parts[2];
         Status status = Status.valueOf(parts[3]);
         String description = parts[4];
-        long epicId = parts[5].trim().isEmpty() ? -1 : Long.parseLong(parts[5]);
+        long epicId = parts.length < 6 ? -1 : Long.parseLong(parts[5]);
 
         if (type == TaskType.SUBTASK) {
             task = new Subtask(id, name, description, status, epicId);
