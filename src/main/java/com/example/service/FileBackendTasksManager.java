@@ -43,9 +43,19 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         if (Files.exists(filepath)) {
             String content = Files.readString(filepath);
             String[] lines = content.split("\n");
+            FileBackendTasksManager tasksManager = new FileBackendTasksManager(filepath);
+
             for (String line : lines) {
                 if (line.trim().startsWith("id")) continue;
                 Task task = fromString(line.trim());
+
+                if (task instanceof Subtask) {
+                    tasksManager.addSubtask((Subtask) task);
+                } else if (task instanceof Epic) {
+                    tasksManager.addEpic((Epic) task);
+                } else {
+                    tasksManager.addTask(task);
+                }
             }
             System.out.println(content);
         } else {
