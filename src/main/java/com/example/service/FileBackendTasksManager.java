@@ -50,11 +50,11 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
                 Task task = fromString(line.trim());
 
                 if (task instanceof Subtask) {
-                    tasksManager.addSubtask((Subtask) task);
+                    tasksManager.updateSubtask((Subtask) task, task.getId());
                 } else if (task instanceof Epic) {
-                    tasksManager.addEpic((Epic) task);
+                    tasksManager.updateEpic((Epic) task, task.getId());
                 } else {
-                    tasksManager.addTask(task);
+                    tasksManager.updateTask(task, task.getId());
                 }
             }
             System.out.println(content);
