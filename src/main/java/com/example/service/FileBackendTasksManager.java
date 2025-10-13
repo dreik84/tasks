@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileBackendTasksManager extends InMemoryTasksManager implements TaskManager {
 
@@ -119,8 +120,11 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         return task;
     }
 
-    public static String toString(HistoryManager manager) {
-        return manager.toString();
+    public static Object toString(HistoryManager manager) {
+        return manager.getHistory().stream()
+                .map(Task::getId)
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
     }
 
     public static List<Integer> historyFromString(String value) {
