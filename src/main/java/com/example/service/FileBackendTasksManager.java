@@ -6,7 +6,7 @@ import com.example.model.*;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -122,14 +122,14 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
 
     public static Object toString(HistoryManager manager) {
         return manager.getHistory().stream()
-                .map(Task::getId)
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
     }
 
-    public static List<Integer> historyFromString(String value) {
-        List<Integer> list = new ArrayList<>();
-
-        return list;
+    public static List<Long> historyFromString(String value) {
+        return Arrays.stream(value.split(","))
+                .map(String::trim)
+                .map(Long::valueOf)
+                .toList();
     }
 }
