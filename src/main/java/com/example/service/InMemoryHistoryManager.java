@@ -2,37 +2,29 @@ package com.example.service;
 
 import com.example.model.Task;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.LinkedList;
+import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final Map<Long, Node> history;
-    private Node first;
-    private Node last;
+    private final LinkedList<Long> history;
 
     public InMemoryHistoryManager() {
-        history = new HashMap<>();
-        first = null;
-        last = null;
+        history = new LinkedList<>();
     }
 
     @Override
     public void add(Task task) {
-        Node node = new Node();
 
-        if (history.containsKey(task.getId())) {
+        if (history.contains(task.getId())) {
             long id = task.getId();
-            node.removeNode(history.get(id));
             remove(id);
         }
 
-        node.linkFirst(task);
-        history.put(task.getId(), node);
+        history.addFirst(task.getId());
 
         if (history.size() > 10) {
-            history.remove(last.task.getId());
-            node.removeNode(last);
+            history.removeLast();
         }
     }
 
@@ -42,52 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public List<Task> getHistory() {
-        List<Task> tasks = new ArrayList<>();
-        Node current = first;
-
-        while (current != null) {
-            tasks.add(current.task);
-            current = current.after;
-        }
-
-        return tasks;
-    }
-
-    private class Node {
-        private Task task;
-        private Node before;
-        private Node after;
-
-        void linkFirst(Task task) {
-            this.task = task;
-
-            if (first == null) {
-                last = this;
-            } else {
-                this.after = first;
-                first.before = this;
-            }
-            first = this;
-        }
-
-        List<Task> getTasks() {
-            return history.values().stream().map(node -> node.task).collect(Collectors.toList());
-        }
-
-        void removeNode(Node node) {
-
-            if (node == first) {
-                first = node.after;
-            } else if (node == last) {
-                last = node.before;
-            } else {
-                node.before.after = node.after;
-                node.after.before = node.before;
-            }
-
-            node.after = null;
-            node.before = null;
-        }
+    public List<Long> getHistory() {
+        return history;
     }
 }
