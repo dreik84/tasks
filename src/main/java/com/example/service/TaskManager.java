@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface TaskManager {
 
-    public List<Task> getHistory();
+    public List<Long> getHistory();
 
     public Map<Long, Task> getTasks();
 
