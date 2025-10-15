@@ -29,7 +29,7 @@ public class InMemoryTasksManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getHistory() {
+    public List<Long> getHistory() {
         return historyManager.getHistory();
     }
 
