@@ -1,7 +1,5 @@
 package com.example.service;
 
-import com.example.model.Task;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,14 +12,13 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void add(Task task) {
+    public void add(long id) {
 
-        if (history.contains(task.getId())) {
-            long id = task.getId();
+        if (history.contains(id)) {
             remove(id);
         }
 
-        history.addFirst(task.getId());
+        history.addFirst(id);
 
         if (history.size() > 10) {
             history.removeLast();
