@@ -45,9 +45,23 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
             String content = Files.readString(filepath);
             String[] lines = content.split("\n");
             FileBackendTasksManager tasksManager = new FileBackendTasksManager(filepath);
+            boolean isHistory = false;
 
             for (String line : lines) {
                 if (line.trim().startsWith("id")) continue;
+                if (line.trim().isBlank()) {
+                    isHistory = true;
+                    continue;
+                }
+                if (isHistory) {
+                    List<Long> history = historyFromString(line);
+
+                    for (Long id : history) {
+                        tasksManager.historyManager.add(id);
+                    }
+                    break;
+                }
+
                 Task task = fromString(line.trim());
 
                 if (task instanceof Subtask) {
