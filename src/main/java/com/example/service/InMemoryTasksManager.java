@@ -6,7 +6,9 @@ import com.example.model.Subtask;
 import com.example.model.Task;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class InMemoryTasksManager implements TaskManager {
 
@@ -67,21 +69,21 @@ public class InMemoryTasksManager implements TaskManager {
     @Override
     public Task getTaskById(long id) {
         Task task = tasks.get(id);
-        historyManager.add(task);
+        historyManager.add(task.getId());
         return task;
     }
 
     @Override
     public Subtask getSubtaskById(long id) {
         Subtask subtask = subtasks.get(id);
-        historyManager.add(subtask);
+        historyManager.add(subtask.getId());
         return subtask;
     }
 
     @Override
     public Epic getEpicById(long id) {
         Epic epic = epics.get(id);
-        historyManager.add(epic);
+        historyManager.add(epic.getId());
         return epic;
     }
 
