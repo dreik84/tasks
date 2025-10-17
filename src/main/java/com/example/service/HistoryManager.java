@@ -1,11 +1,10 @@
 package com.example.service;
 
-import com.example.model.Task;
-
 import java.util.List;
 
 public interface HistoryManager {
-    void add(Task task);
+
+    void add(long id);
 
     void remove(long id);
 
