@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class FileBackendTasksManager extends InMemoryTasksManager implements TaskManager {
@@ -31,8 +32,32 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         try {
             if (!Files.exists(pathToFile)) {
                 Files.createFile(pathToFile);
+                Files.writeString(pathToFile, "id,type,name,status,description,epic\n", StandardOpenOption.APPEND);
             }
-            Files.writeString(pathToFile, "\n" + toString(task), StandardOpenOption.APPEND);
+
+            String content = Files.readString(pathToFile);
+            String[] lines = content.split("\n");
+            StringJoiner joiner = new StringJoiner("\n");
+
+            for (String line : lines) {
+                if (line.trim().startsWith("id")) {
+                    joiner.add(line.trim());
+                    continue;
+                }
+
+                if (line.trim().startsWith(String.valueOf(task.getId()))) {
+                    return;
+                }
+
+                if (line.trim().isBlank()) {
+                    joiner.add(toString(task)).add("");
+                } else {
+                    joiner.add(line.trim());
+                }
+            }
+
+            Files.writeString(pathToFile, joiner.toString());
+
         } catch (FileAlreadyExistsException e) {
             System.out.println("File " + e.getFile() + " already exists");
         } catch (IOException e) {
