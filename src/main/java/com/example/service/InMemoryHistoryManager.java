@@ -18,10 +18,10 @@ public class InMemoryHistoryManager implements HistoryManager {
             remove(id);
         }
 
-        history.addFirst(id);
+        history.addLast(id);
 
         if (history.size() > 10) {
-            history.removeLast();
+            history.removeFirst();
         }
     }
 
