@@ -24,7 +24,12 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         Path filePath = Paths.get(System.getProperty("user.dir"), "src", "main", "resources", "tasks.csv")
                 .normalize().toAbsolutePath();
         System.out.println(filePath);
-        FileBackendTasksManager.loadFromFile(filePath);
+        TaskManager taskManager = FileBackendTasksManager.loadFromFile(filePath);
+        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.getTasks());
+        System.out.println(taskManager.getSubtasks());
+        System.out.println(taskManager.getEpics());
+
     }
 
     private void save(Task task) {
@@ -65,11 +70,12 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         }
     }
 
-    public static void loadFromFile(Path filepath) throws IOException {
+    public static TaskManager loadFromFile(Path filepath) throws IOException {
+        FileBackendTasksManager tasksManager = new FileBackendTasksManager(filepath);
+
         if (Files.exists(filepath)) {
             String content = Files.readString(filepath);
             String[] lines = content.split("\n");
-            FileBackendTasksManager tasksManager = new FileBackendTasksManager(filepath);
             boolean isHistory = false;
 
             for (String line : lines) {
@@ -97,10 +103,11 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
                     tasksManager.updateTask(task, task.getId());
                 }
             }
-            System.out.println(content);
         } else {
             throw new ManagerLoadException("File does not exist");
         }
+
+        return tasksManager;
     }
 
     @Override
@@ -159,7 +166,7 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
         return task;
     }
 
-    public static Object toString(HistoryManager manager) {
+    public static String toString(HistoryManager manager) {
         return manager.getHistory().stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
