@@ -41,6 +41,10 @@ class EpicTest {
         assertEquals(Status.IN_PROCESS, epic.getStatus());
 
         taskManager.updateStatus(subtask1, Status.DONE);
+
+        assertEquals(Status.IN_PROCESS, epic.getStatus());
+
+        taskManager.updateStatus(subtask1, Status.DONE);
         taskManager.updateStatus(subtask2, Status.DONE);
 
         assertEquals(Status.DONE, epic.getStatus());
