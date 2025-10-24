@@ -89,19 +89,15 @@ public class InMemoryTasksManager implements TaskManager {
 
     @Override
     public void addTask(Task task) throws IOException {
-        tasks.put(task.getId(), task);
-    }
-
-    @Override
-    public void addSubtask(Subtask subtask) throws IOException {
-        subtasks.put(subtask.getId(), subtask);
-        Epic epic = getEpicById(subtask.getEpicId());
-        epic.addSubtask(subtask.getId());
-    }
-
-    @Override
-    public void addEpic(Epic epic) throws IOException {
-        epics.put(epic.getId(), epic);
+        if (task instanceof Epic epic) {
+            epics.put(epic.getId(), epic);
+        } else if (task instanceof Subtask subtask) {
+            subtasks.put(subtask.getId(), subtask);
+            Epic epic = getEpicById(subtask.getEpicId());
+            epic.addSubtask(subtask.getId());
+        } else {
+            tasks.put(task.getId(), task);
+        }
     }
 
     @Override

@@ -112,20 +112,8 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
 
     @Override
     public void addTask(Task task) throws IOException {
-        tasks.put(task.getId(), task);
+        super.addTask(task);
         save(task);
-    }
-
-    @Override
-    public void addSubtask(Subtask subtask) throws IOException {
-        subtasks.put(subtask.getId(), subtask);
-        save(subtask);
-    }
-
-    @Override
-    public void addEpic(Epic epic) throws IOException {
-        epics.put(epic.getId(), epic);
-        save(epic);
     }
 
     public String toString(Task task) {

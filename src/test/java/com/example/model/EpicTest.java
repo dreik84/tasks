@@ -30,9 +30,9 @@ class EpicTest {
                 Status.NEW,
                 epic.getId());
 
-        taskManager.addEpic(epic);
-        taskManager.addSubtask(subtask1);
-        taskManager.addSubtask(subtask2);
+        taskManager.addTask(epic);
+        taskManager.addTask(subtask1);
+        taskManager.addTask(subtask2);
 
         assertEquals(Status.NEW, epic.getStatus());
 

@@ -33,10 +33,6 @@ public interface TaskManager {
 
     public void addTask(Task task) throws IOException;
 
-    public void addSubtask(Subtask subtask) throws IOException;
-
-    public void addEpic(Epic epic) throws IOException;
-
     public void updateTask(Task task, long id);
 
     public void updateSubtask(Subtask subtask, long id);

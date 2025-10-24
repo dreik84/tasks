@@ -53,11 +53,11 @@ public class Main {
 
         taskManager.addTask(task1);
         taskManager.addTask(task2);
-        taskManager.addEpic(epic1);
-        taskManager.addSubtask(subtask1);
-        taskManager.addSubtask(subtask2);
-        taskManager.addEpic(epic2);
-        taskManager.addSubtask(subtask3);
+        taskManager.addTask(epic1);
+        taskManager.addTask(subtask1);
+        taskManager.addTask(subtask2);
+        taskManager.addTask(epic2);
+        taskManager.addTask(subtask3);
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
