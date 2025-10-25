@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class TaskManagerTest {
 
     @Test
@@ -36,6 +38,20 @@ class TaskManagerTest {
         taskManager.addTask(epic);
         taskManager.addTask(subtask1);
         taskManager.addTask(subtask2);
+
+        assertTrue(taskManager.getHistory().isEmpty());
+
+        taskManager.getTaskById(task.getId());
+
+        assertFalse(taskManager.getHistory().isEmpty());
+        assertEquals(task.getId(), taskManager.getHistory().get(0));
+
+        taskManager.getTaskById(task.getId());
+        taskManager.getSubtaskById(subtask1.getId());
+        taskManager.getSubtaskById(subtask2.getId());
+        taskManager.getEpicById(epic.getId());
+
+        assertEquals(4, taskManager.getHistory().size());
     }
 
     @Test
