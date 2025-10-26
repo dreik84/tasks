@@ -4,6 +4,7 @@ import com.example.model.Epic;
 import com.example.model.Status;
 import com.example.model.Subtask;
 import com.example.model.Task;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,24 +13,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TaskManagerTest {
 
-    @Test
-    void getHistory() throws IOException {
-        TaskManager taskManager = new InMemoryTasksManager();
+    TaskManager taskManager;
+    Task task;
+    Subtask subtask1;
+    Subtask subtask2;
+    Epic epic;
 
-        Task task = new Task("Починить забор",
+    @BeforeEach
+    void setUp() throws IOException {
+        taskManager = new InMemoryTasksManager();
+
+        task = new Task("Починить забор",
                 "Нужно отремонтировать забор с использование подручного инструмента",
                 Status.NEW);
 
-        Epic epic = new Epic("Выучить английский",
+        epic = new Epic("Выучить английский",
                 "Нужно выучить английский язык",
                 Status.NEW);
 
-        Subtask subtask1 = new Subtask("Купить учебник",
+        subtask1 = new Subtask("Купить учебник",
                 "Необходимо приобрести учебник по английскому языку",
                 Status.NEW,
                 epic.getId());
 
-        Subtask subtask2 = new Subtask("Выучить грамматику языка",
+        subtask2 = new Subtask("Выучить грамматику языка",
                 "Начать изучать грамматику английского языка",
                 Status.NEW,
                 epic.getId());
@@ -38,7 +45,10 @@ class TaskManagerTest {
         taskManager.addTask(epic);
         taskManager.addTask(subtask1);
         taskManager.addTask(subtask2);
+    }
 
+    @Test
+    void getHistory() {
         assertTrue(taskManager.getHistory().isEmpty());
 
         taskManager.getTaskById(task.getId());
@@ -56,14 +66,29 @@ class TaskManagerTest {
 
     @Test
     void getTasks() {
+        Task expected = task;
+        Task actual = taskManager.getTasks().get(task.getId());
+
+        assertEquals(1, taskManager.getTasks().size());
+        assertEquals(expected, actual);
     }
 
     @Test
     void getSubtasks() {
+        Subtask expected = subtask1;
+        Subtask actual = taskManager.getSubtasks().get(subtask1.getId());
+
+        assertEquals(2, taskManager.getSubtasks().size());
+        assertEquals(expected, actual);
     }
 
     @Test
     void getEpics() {
+        Epic expected = epic;
+        Epic actual = taskManager.getEpics().get(epic.getId());
+
+        assertEquals(1, taskManager.getEpics().size());
+        assertEquals(expected, actual);
     }
 
     @Test
