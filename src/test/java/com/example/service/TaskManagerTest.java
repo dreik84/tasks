@@ -93,38 +93,59 @@ class TaskManagerTest {
 
     @Test
     void removeAllTasks() {
+        assertFalse(taskManager.getTasks().isEmpty());
+        taskManager.removeAllTasks();
+        assertTrue(taskManager.getTasks().isEmpty());
     }
 
     @Test
     void removeAllSubtasks() {
+        assertFalse(taskManager.getSubtasks().isEmpty());
+        taskManager.removeAllSubtasks();
+        assertTrue(taskManager.getSubtasks().isEmpty());
     }
 
     @Test
     void removeAllEpics() {
+        assertFalse(taskManager.getEpics().isEmpty());
+        taskManager.removeAllEpics();
+        assertTrue(taskManager.getEpics().isEmpty());
     }
 
     @Test
     void getTaskById() {
+        assertEquals(task, taskManager.getTaskById(task.getId()));
+        assertTrue(taskManager.getHistory().contains(task.getId()));
     }
 
     @Test
     void getSubtaskById() {
+        assertEquals(subtask1, taskManager.getSubtaskById(subtask1.getId()));
+        assertTrue(taskManager.getHistory().contains(subtask1.getId()));
     }
 
     @Test
     void getEpicById() {
+        assertEquals(epic, taskManager.getEpicById(epic.getId()));
+        assertTrue(taskManager.getHistory().contains(epic.getId()));
     }
 
     @Test
-    void addTask() {
-    }
+    void addTask() throws IOException {
+        TaskManager taskManager = new InMemoryTasksManager();
 
-    @Test
-    void addSubtask() {
-    }
+        assertTrue(taskManager.getTasks().isEmpty());
+        assertTrue(taskManager.getSubtasks().isEmpty());
+        assertTrue(taskManager.getEpics().isEmpty());
 
-    @Test
-    void addEpic() {
+        taskManager.addTask(task);
+        taskManager.addTask(epic);
+        taskManager.addTask(subtask1);
+        taskManager.addTask(subtask2);
+
+        assertEquals(1, taskManager.getTasks().size());
+        assertEquals(2, taskManager.getSubtasks().size());
+        assertEquals(1, taskManager.getEpics().size());
     }
 
     @Test
