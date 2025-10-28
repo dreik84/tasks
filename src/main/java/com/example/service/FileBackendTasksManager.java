@@ -94,14 +94,7 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
                 }
 
                 Task task = fromString(line.trim());
-
-                if (task instanceof Subtask) {
-                    tasksManager.updateSubtask((Subtask) task, task.getId());
-                } else if (task instanceof Epic) {
-                    tasksManager.updateEpic((Epic) task, task.getId());
-                } else {
-                    tasksManager.updateTask(task, task.getId());
-                }
+                tasksManager.updateTask(task, task.getId());
             }
         } else {
             throw new ManagerLoadException("File does not exist");

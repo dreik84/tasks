@@ -102,17 +102,13 @@ public class InMemoryTasksManager implements TaskManager {
 
     @Override
     public void updateTask(Task task, long id) {
-        tasks.put(id, task);
-    }
-
-    @Override
-    public void updateSubtask(Subtask subtask, long id) {
-        subtasks.put(id, subtask);
-    }
-
-    @Override
-    public void updateEpic(Epic epic, long id) {
-        epics.put(id, epic);
+        if (task instanceof Epic epic) {
+            epics.put(id, epic);
+        } else if (task instanceof Subtask subtask) {
+            subtasks.put(id, subtask);
+        } else {
+            tasks.put(id, task);
+        }
     }
 
     @Override

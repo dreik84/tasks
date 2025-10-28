@@ -35,10 +35,6 @@ public interface TaskManager {
 
     public void updateTask(Task task, long id);
 
-    public void updateSubtask(Subtask subtask, long id);
-
-    public void updateEpic(Epic epic, long id);
-
     public void removeTaskById(long id);
 
     public void removeSubtaskById(long id);

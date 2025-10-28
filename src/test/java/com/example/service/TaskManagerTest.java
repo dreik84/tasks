@@ -150,14 +150,13 @@ class TaskManagerTest {
 
     @Test
     void updateTask() {
-    }
+        Task updatedTask = new Task("Починить забор на даче",
+                "Нужно отремонтировать забор с использование подручного инструмента",
+                Status.NEW);
 
-    @Test
-    void updateSubtask() {
-    }
+        taskManager.updateTask(updatedTask, task.getId());
 
-    @Test
-    void updateEpic() {
+        assertEquals(updatedTask, taskManager.getTaskById(task.getId()));
     }
 
     @Test
