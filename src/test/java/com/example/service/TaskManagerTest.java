@@ -161,17 +161,46 @@ class TaskManagerTest {
 
     @Test
     void removeTaskById() {
+        assertEquals(1, taskManager.getTasks().size());
+        taskManager.removeTaskById(task.getId());
+        assertEquals(0, taskManager.getTasks().size());
     }
 
     @Test
     void removeSubtaskById() {
+        assertEquals(2, taskManager.getSubtasks().size());
+        taskManager.removeSubtaskById(subtask1.getId());
+        assertEquals(1, taskManager.getSubtasks().size());
     }
 
     @Test
     void removeEpicById() {
+        assertEquals(1, taskManager.getEpics().size());
+        taskManager.removeEpicById(epic.getId());
+        assertEquals(0, taskManager.getEpics().size());
     }
 
     @Test
     void updateStatus() {
+        assertEquals(Status.NEW, taskManager.getTaskById(task.getId()).getStatus());
+        assertEquals(Status.NEW, taskManager.getSubtaskById(subtask1.getId()).getStatus());
+        assertEquals(Status.NEW, taskManager.getSubtaskById(subtask2.getId()).getStatus());
+        assertEquals(Status.NEW, taskManager.getEpicById(epic.getId()).getStatus());
+
+        taskManager.updateStatus(task, Status.IN_PROCESS);
+
+        assertEquals(Status.IN_PROCESS, taskManager.getTaskById(task.getId()).getStatus());
+
+        taskManager.updateStatus(subtask1, Status.IN_PROCESS);
+
+        assertEquals(Status.IN_PROCESS, taskManager.getTaskById(task.getId()).getStatus());
+        assertEquals(Status.IN_PROCESS, taskManager.getEpicById(epic.getId()).getStatus());
+
+        taskManager.updateStatus(subtask1, Status.DONE);
+        taskManager.updateStatus(subtask2, Status.DONE);
+
+        assertEquals(Status.DONE, taskManager.getSubtaskById(subtask1.getId()).getStatus());
+        assertEquals(Status.DONE, taskManager.getSubtaskById(subtask2.getId()).getStatus());
+        assertEquals(Status.DONE, taskManager.getEpicById(epic.getId()).getStatus());
     }
 }
