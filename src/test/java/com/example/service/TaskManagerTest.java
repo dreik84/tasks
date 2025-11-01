@@ -116,18 +116,21 @@ class TaskManagerTest {
     void getTaskById() {
         assertEquals(task, taskManager.getTaskById(task.getId()));
         assertTrue(taskManager.getHistory().contains(task.getId()));
+        assertThrows(IllegalArgumentException.class, () -> taskManager.getTaskById(-1));
     }
 
     @Test
     void getSubtaskById() {
         assertEquals(subtask1, taskManager.getSubtaskById(subtask1.getId()));
         assertTrue(taskManager.getHistory().contains(subtask1.getId()));
+        assertThrows(IllegalArgumentException.class, () -> taskManager.getSubtaskById(-1));
     }
 
     @Test
     void getEpicById() {
         assertEquals(epic, taskManager.getEpicById(epic.getId()));
         assertTrue(taskManager.getHistory().contains(epic.getId()));
+        assertThrows(IllegalArgumentException.class, () -> taskManager.getEpicById(-1));
     }
 
     @Test
