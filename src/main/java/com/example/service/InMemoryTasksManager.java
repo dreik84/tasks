@@ -118,10 +118,19 @@ public class InMemoryTasksManager implements TaskManager {
     @Override
     public void updateTask(Task task, long id) {
         if (task instanceof Epic epic) {
+            if (epics.get(id) == null) {
+                throw new IllegalArgumentException("Epic with id " + id + " not found");
+            }
             epics.put(id, epic);
         } else if (task instanceof Subtask subtask) {
+            if (subtasks.get(id) == null) {
+                throw new IllegalArgumentException("Subtask with id " + id + " not found");
+            }
             subtasks.put(id, subtask);
         } else {
+            if (tasks.get(id) == null) {
+                throw new IllegalArgumentException("Task with id " + id + " not found");
+            }
             tasks.put(id, task);
         }
     }

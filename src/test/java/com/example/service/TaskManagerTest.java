@@ -160,6 +160,7 @@ class TaskManagerTest {
         taskManager.updateTask(updatedTask, task.getId());
 
         assertEquals(updatedTask, taskManager.getTaskById(task.getId()));
+        assertThrows(IllegalArgumentException.class, () -> taskManager.updateTask(updatedTask, -1));
     }
 
     @Test
