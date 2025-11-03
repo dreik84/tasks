@@ -168,6 +168,7 @@ class TaskManagerTest {
         assertEquals(1, taskManager.getTasks().size());
         taskManager.removeTaskById(task.getId());
         assertEquals(0, taskManager.getTasks().size());
+        assertThrows(IllegalArgumentException.class, () -> taskManager.removeTaskById(-1));
     }
 
     @Test
@@ -175,6 +176,7 @@ class TaskManagerTest {
         assertEquals(2, taskManager.getSubtasks().size());
         taskManager.removeSubtaskById(subtask1.getId());
         assertEquals(1, taskManager.getSubtasks().size());
+        assertThrows(IllegalArgumentException.class, () -> taskManager.removeSubtaskById(-1));
     }
 
     @Test
@@ -182,6 +184,7 @@ class TaskManagerTest {
         assertEquals(1, taskManager.getEpics().size());
         taskManager.removeEpicById(epic.getId());
         assertEquals(0, taskManager.getEpics().size());
+        assertThrows(IllegalArgumentException.class, () -> taskManager.removeEpicById(-1));
     }
 
     @Test

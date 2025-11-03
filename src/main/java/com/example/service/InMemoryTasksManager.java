@@ -137,11 +137,17 @@ public class InMemoryTasksManager implements TaskManager {
 
     @Override
     public void removeTaskById(long id) {
+        if (tasks.get(id) == null) {
+            throw new IllegalArgumentException("Task with id " + id + " not found");
+        }
         tasks.remove(id);
     }
 
     @Override
     public void removeSubtaskById(long id) {
+        if (subtasks.get(id) == null) {
+            throw new IllegalArgumentException("Subtask with id " + id + " not found");
+        }
         Subtask subtask = subtasks.get(id);
         Epic epic = getEpicById(subtask.getEpicId());
         epic.removeSubtask(subtask.getId());
@@ -150,6 +156,9 @@ public class InMemoryTasksManager implements TaskManager {
 
     @Override
     public void removeEpicById(long id) {
+        if (epics.get(id) == null) {
+            throw new IllegalArgumentException("Epic with id " + id + " not found");
+        }
         subtasks.values().removeIf(subtask -> subtask.getEpicId() == id);
         epics.remove(id);
     }
