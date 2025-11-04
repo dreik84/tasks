@@ -27,6 +27,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(long id) {
+        if (!history.contains(id)) {
+            throw new IllegalArgumentException("History does not contain id " + id);
+        }
+
         history.remove(id);
     }
 
