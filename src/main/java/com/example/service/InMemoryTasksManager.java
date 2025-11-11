@@ -30,6 +30,14 @@ public class InMemoryTasksManager implements TaskManager {
         return ++id;
     }
 
+    public static long getId() {
+        return id;
+    }
+
+    public static void setId(long id) {
+        InMemoryTasksManager.id = id;
+    }
+
     @Override
     public List<Long> getHistory() {
         return historyManager.getHistory();
