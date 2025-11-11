@@ -77,6 +77,7 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
             String content = Files.readString(filepath);
             String[] lines = content.split("\n");
             boolean isHistory = false;
+            long lastId = 0L;
 
             for (String line : lines) {
                 if (line.trim().startsWith("id")) continue;
@@ -94,7 +95,9 @@ public class FileBackendTasksManager extends InMemoryTasksManager implements Tas
                 }
 
                 Task task = fromString(line.trim());
-                tasksManager.updateTask(task, task.getId());
+                tasksManager.addTask(task);
+                lastId = Math.max(task.getId(), lastId);
+                InMemoryTasksManager.setId(lastId);
             }
         } else {
             throw new ManagerLoadException("File does not exist");
